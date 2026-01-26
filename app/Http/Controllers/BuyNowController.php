@@ -15,30 +15,18 @@ class BuyNowController extends Controller
     {
         $name  = $request->input('name');
         $price = $request->input('price');
+        $image = $request->input('image');
 
-        
-        session([
-            'payment_name'  => $name,
-            'payment_price' => $price,
-            'telegram_sent' => false, // prevent duplicates
-        ]);
+        $buyNowItem = [
+            'name'  => $name,
+            'price' => $price,
+            'image' => $image,
+            'qty'   => 1,
+        ];
 
-        //  Generate KHQR
-        $individualInfo = new IndividualInfo(
-            bakongAccountID: 'thet_panhayuth@bkrt',
-            merchantName: 'Thet panhayuth',
-            merchantCity: 'PHNOM PENH',
-            currency: KHQRData::CURRENCY_KHR,
-            amount: $price,
-        );
+        session(['buy_now_item' => $buyNowItem]);
 
-        $khqr = BakongKHQR::generateIndividual($individualInfo);
-
-        return view('payment', [
-            'qrData' => $khqr->data,
-            'name'   => $name,
-            'price'  => $price,
-        ]);
+        return redirect()->route('checkout');
     }
 
     public function paymentSuccess()
@@ -81,10 +69,19 @@ class BuyNowController extends Controller
 
                     $bakongData = $result['data'];
 
+                    // Get order details from session
+                    $orderName = session('order_name', 'Unknown Customer');
+                    $totalPrice = session('payment_price', 0);
+                    $cart = session('cart', []);
+                    $buyNowItem = session('buy_now_item');
+                    
+                    $items = $cart;
+                    if ($buyNowItem) { $items[] = $buyNowItem; }
+
                     $this->SendNotification(
-                        session('payment_name', 'Unknown product'),
-                        session('payment_price', 0),
-                        1,
+                        $orderName,
+                        $totalPrice,
+                        $items,
                         $bakongData['fromAccountId'] ?? 'Unknown'
                     );
 
@@ -121,17 +118,22 @@ class BuyNowController extends Controller
     /**
      * 📩 TELEGRAM NOTIFICATION
      */
-    function SendNotification($productName, $price, $qty = 1, $fromAccount = 'Unknown')
+    function SendNotification($customerName, $total, $items, $fromAccount = 'Unknown')
     {
-        $total = number_format($price * $qty, 2);
         $date  = now()->format('d-m-Y h:i A');
 
-        $text  = "<b>Information</b>\n";
-        $text .= "1. {$productName} ({$price}$) x {$qty}\n";
+        $text  = "<b>New Order Paid!</b>\n";
+        $text .= "<b>Customer:</b> {$customerName}\n";
+        $text .= "<b>Items:</b>\n";
+        
+        foreach($items as $item) {
+            $text .= "- {$item['name']} (x{$item['qty']})\n";
+        }
+        
         $text .= "-----\n";
-        $text .= "<b>Total:</b> {$total}$\n";
-        $text .= "<b>Paid:</b> {$fromAccount}\n";
-        $text .= "<b>PaidDate:</b> {$date}";
+        $text .= "<b>Total Paid:</b> " . number_format($total, 2) . " KHR\n";
+        $text .= "<b>From Account:</b> {$fromAccount}\n";
+        $text .= "<b>Date:</b> {$date}";
 
         return Http::withoutVerifying()->post(
             'https://api.telegram.org/bot' . env('TELEGRAM_BOT_TOKEN') . '/sendMessage',

@@ -231,7 +231,7 @@
         <div class="checkmark-container">
             <div class="checkmark">✔</div>
         </div>
-        <h1>អរគុណ​ អរគុណ​ អរគុណ​</h1>
+        <h1>សូមអរគុណ</h1>
         <p class="success-message">
             Your payment was processed successfully.<br>
             We appreciate your trust in us. A confirmation email has been sent to your inbox.
@@ -250,7 +250,7 @@
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Amount Paid</div>
-                    <div class="detail-value">{{$price}}</div>
+                    <div class="detail-value">{{ isset($price) ? number_format($price) . ' KHR' : 'N/A' }}</div>
                 </div>
                 <div class="detail-item">
                     <div class="detail-label">Payment Method</div>
@@ -259,7 +259,7 @@
             </div>  
         </div>
         
-        <a href="/" class="btn">
+        <a href="{{ route('home') }}" class="btn">
             <i class="fas fa-home"></i> Back to Home
         </a>
         

@@ -1,0 +1,20 @@
+
+  Dropping all tables  75.56ms DONE
+
+   INFO  Preparing database.  
+
+  Creating migration table  18.70ms DONE
+
+   INFO  Running migrations.  
+
+  0001_01_01_000000_create_users_table  218.21ms DONE
+  0001_01_01_000001_create_cache_table  19.13ms DONE
+  0001_01_01_000002_create_jobs_table  147.49ms DONE
+  2026_01_24_092139_create_products_table  10.35ms DONE
+
+
+   INFO  Seeding database.  
+
+  Database\Seeders\ProductSeeder  RUNNING  
+  Database\Seeders\ProductSeeder  21 ms DONE  
+

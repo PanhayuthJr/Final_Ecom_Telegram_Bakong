@@ -6,538 +6,33 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
     <title>Modern Product Catalog</title>
 
-    <style>
-        :root {
-            --primary-color: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary-color: #f8fafc;
-            --card-bg: #ffffff;
-            --text-primary: #1e293b;
-            --text-secondary: #64748b;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-            --shadow-md: 0 10px 25px -5px rgba(0,0,0,0.1);
-            --shadow-lg: 0 20px 40px -10px rgba(0,0,0,0.15);
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            --in-stock: #10b981;
-            --out-of-stock: #ef4444;
-            --low-stock: #f59e0b;
-        }
-
-        body {
-            background-color: #f9fafb;
-            color: var(--text-primary);
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-        }
-
-        /* Modern Header */
-        .modern-header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            padding: 1.5rem 0;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-md);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .modern-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #8b5cf6, #10b981, #f59e0b);
-        }
-
-        .header-title {
-            font-weight: 800;
-            font-size: 2.2rem;
-            color: white;
-            margin: 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .header-subtitle {
-            color: rgba(255,255,255,0.85);
-            font-size: 1rem;
-        }
-
-        /* Promotional Banner Slider */
-        .promo-banner {
-            margin-bottom: 2.5rem;
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: var(--shadow-md);
-        }
-
-        .carousel-item {
-            height: 400px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .carousel-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.1) 100%);
-            z-index: 1;
-        }
-
-        .carousel-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 10s ease;
-        }
-
-        .carousel-item.active .carousel-image {
-            transform: scale(1.1);
-        }
-
-        .carousel-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 2.5rem;
-            text-align: left;
-            z-index: 2;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-        }
-
-        .promo-badge {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            font-size: 0.8rem;
-            font-weight: 700;
-            padding: 6px 16px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 1rem;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-        }
-
-        .promo-title {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
-        }
-
-        .promo-subtitle {
-            font-size: 1.1rem;
-            color: rgba(255,255,255,0.9);
-            margin-bottom: 1.5rem;
-            max-width: 600px;
-        }
-
-        .promo-btn {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 28px;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-        }
-
-        .promo-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
-        }
-
-        .carousel-indicators {
-            bottom: 20px;
-        }
-
-        .carousel-indicators button {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin: 0 6px;
-            background-color: rgba(255,255,255,0.5);
-            border: none;
-        }
-
-        .carousel-indicators button.active {
-            background-color: var(--primary-color);
-            transform: scale(1.2);
-        }
-
-        .carousel-control-prev,
-        .carousel-control-next {
-            width: 60px;
-            height: 60px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-            top: 50%;
-            transform: translateY(-50%);
-            margin: 0 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-
-        .carousel-control-prev {
-            left: 20px;
-        }
-
-        .carousel-control-next {
-            right: 20px;
-        }
-
-        /* Search & Filter Bar */
-        .search-filter-bar {
-            background: white;
-            border-radius: 14px;
-            padding: 1.25rem;
-            box-shadow: var(--shadow-sm);
-            margin-bottom: 2.5rem;
-            border: 1px solid var(--border-color);
-        }
-
-        .search-box {
-            position: relative;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-secondary);
-        }
-
-        .search-box input {
-            padding-left: 46px;
-            border-radius: 10px;
-            border: 1px solid var(--border-color);
-            height: 48px;
-            transition: var(--transition);
-        }
-
-        .search-box input:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-        }
-
-        /* Stock Status Badge */
-        .stock-badge {
-            position: absolute;
-            top: 12px;
-            left: 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 20px;
-            z-index: 2;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .stock-badge.in-stock {
-            background-color: rgba(16, 185, 129, 0.95);
-            color: white;
-        }
-
-        .stock-badge.out-of-stock {
-            background-color: rgba(239, 68, 68, 0.95);
-            color: white;
-        }
-
-        .stock-badge.low-stock {
-            background-color: rgba(245, 158, 11, 0.95);
-            color: white;
-        }
-
-        /* Modern Product Card */
-        .modern-product-card {
-            background: var(--card-bg);
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-            height: 100%;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .modern-product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-lg);
-            border-color: transparent;
-        }
-
-        .product-badge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: #8b5cf6;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
-            z-index: 2;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        }
-
-        .product-img-container {
-            height: 220px;
-            background: linear-gradient(135deg, #f6f7f9 0%, #edf0f3 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .product-img {
-            max-height: 180px;
-            object-fit: contain;
-            transition: var(--transition);
-            z-index: 1;
-        }
-
-        .modern-product-card:hover .product-img {
-            transform: scale(1.05);
-        }
-
-        .product-content {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .product-title {
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            line-height: 1.4;
-        }
-
-        .product-description {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.5;
-            margin-bottom: 1rem;
-            flex-grow: 1;
-        }
-
-        /* Specifications Section */
-        .product-specifications {
-            background-color: #f8fafc;
-            border-radius: 10px;
-            padding: 1rem;
-            margin-bottom: 1.25rem;
-            border-left: 3px solid var(--primary-color);
-        }
-
-        .spec-title {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .spec-title i {
-            color: var(--primary-color);
-        }
-
-        .spec-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .spec-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            padding: 4px 0;
-            border-bottom: 1px dashed #e2e8f0;
-        }
-
-        .spec-label {
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .spec-value {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .product-price {
-            font-weight: 800;
-            font-size: 1.5rem;
-            color: var(--primary-dark);
-            margin-bottom: 1.25rem;
-        }
-
-        .product-meta {
-            display: flex;
-            align-items: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            margin-bottom: 1.25rem;
-        }
-
-        .product-meta i {
-            margin-right: 6px;
-            color: var(--primary-color);
-        }
-
-        .modern-buy-btn {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            padding: 12px 20px;
-            font-weight: 700;
-            font-size: 1rem;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
-        }
-
-        .modern-buy-btn:hover:not(:disabled) {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.35);
-            color: white;
-        }
-
-        .modern-buy-btn:disabled {
-            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%);
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .modern-buy-btn i {
-            margin-right: 8px;
-            font-size: 1.1rem;
-        }
-
-        /* Quick Stats Bar */
-        .stats-bar {
-            background: white;
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-color);
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 0 1rem;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary-color);
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        /* Footer */
-        .modern-footer {
-            margin-top: 4rem;
-            padding: 2.5rem 0;
-            background-color: #1e293b;
-            color: #cbd5e1;
-            text-align: center;
-        }
-
-        .footer-title {
-            color: white;
-            font-weight: 700;
-            font-size: 1.25rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .empty-state-icon {
-            font-size: 4rem;
-            color: var(--border-color);
-            margin-bottom: 1.5rem;
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .header-title {
-                font-size: 1.8rem;
-            }
-            
-            .carousel-item {
-                height: 300px;
-            }
-            
-            .promo-title {
-                font-size: 1.6rem;
-            }
-            
-            .promo-subtitle {
-                font-size: 1rem;
-            }
-            
-            .product-img-container {
-                height: 180px;
-            }
-            
-            .product-img {
-                max-height: 140px;
-            }
-            
-            .spec-list {
-                grid-template-columns: 1fr;
-            }
-            
-            .carousel-control-prev,
-            .carousel-control-next {
-                width: 40px;
-                height: 40px;
-                margin: 0 10px;
-            }
-        }
-    </style>
 </head>
 
 <body>
+    <!-- Cart Notification -->
+    <div id="cartNotification" class="alert alert-success cart-notification d-none" role="alert">
+        <i class="fas fa-check-circle me-2"></i>
+        <span id="notificationMessage">Product added to cart!</span>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="confirmation-content">
+            <h5 class="mb-3" id="confirmationTitle">Confirm Removal</h5>
+            <p id="confirmationMessage">Are you sure you want to remove this item from your cart?</p>
+            <div class="confirmation-actions">
+                <button class="btn btn-secondary" id="cancelRemove">Cancel</button>
+                <button class="btn btn-danger" id="confirmRemove">Remove</button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modern Header -->
     <!-- Modern Header -->
     <header class="modern-header">
         <div class="container">
@@ -547,9 +42,43 @@
                     <p class="header-subtitle">Premium electronics, gaming gear, and smart devices</p>
                 </div>
                 <div class="col-md-4 text-md-end mt-3 mt-md-0">
-                    <div class="d-inline-flex align-items-center bg-white rounded-pill px-3 py-2 shadow-sm">
+                    <div class="d-inline-flex align-items-center bg-white rounded-pill px-3 py-2 shadow-sm me-3">
                         <i class="fas fa-boxes-stacked text-primary me-2"></i>
                         <span class="fw-medium">{{ count($products) }} Products Available</span>
+                    </div>
+
+                    @auth
+                        <div class="d-inline-flex align-items-center bg-white rounded-pill px-3 py-2 shadow-sm me-3">
+                            <i class="fas fa-user-circle text-primary me-2"></i>
+                            <span class="fw-bold me-3">{{ Auth::user()->name }}</span>
+                            @if(Auth::user()->role === 'admin')
+                                <a href="{{ route('admin.products.index') }}" class="text-decoration-none fw-bold me-3 text-primary" title="Admin Dashboard">
+                                    <i class="fas fa-cog"></i> Dashboard
+                                </a>
+                            @endif
+                            <form method="POST" action="{{ route('logout') }}" class="m-0">
+                                @csrf
+                                <button type="submit" class="p-0 border-0 bg-transparent text-slate-400 hover:text-danger flex items-center" title="Sign Out">
+                                    <i class="fas fa-power-off"></i>
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        <div class="d-inline-flex align-items-center bg-white rounded-pill px-3 py-2 shadow-sm me-3">
+                            <i class="fas fa-lock text-primary me-2"></i>
+                            <a href="{{ route('login') }}" class="text-decoration-none fw-bold me-2">Sign In</a>
+                            <span class="text-slate-300">|</span>
+                            <a href="{{ route('register') }}" class="text-decoration-none fw-bold ms-2">Join</a>
+                        </div>
+                    @endauth
+                    
+                    <!-- Cart Icon -->
+
+                    <div class="cart-icon-container">
+                        <a href="{{ route('cart.view') }}" class="cart-icon-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count-badge" id="headerCartCount">{{ $cartCount }}</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -557,69 +86,52 @@
     </header>
 
     <main class="container">
-        <!-- Promotional Banner Slider -->
+        <!-- Premium Promotional Banner Slider -->
         <div class="promo-banner">
-            <div id="promoCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div id="premiumPromoCarousel" class="carousel slide promo-carousel carousel-fade" data-bs-ride="carousel">
                 <div class="carousel-indicators">
-                    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                    <button type="button" data-bs-target="#promoCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#premiumPromoCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#premiumPromoCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#premiumPromoCarousel" data-bs-slide-to="2"></button>
                 </div>
                 
-                {{-- <div class="carousel-inner">
-                    <!-- Banner 1: Black Friday Sale -->
-                    <div class="carousel-item active">
-                        <img src="image/Monitor-Asus-banner.jpg" class="carousel-image" alt="Black Friday Sale">
-                        <div class="carousel-caption">
-                            <div class="promo-badge">
-                                <i class="fas fa-bolt me-2"></i> LIMITED TIME OFFER
-                            </div>
-                            <h2 class="promo-title">Black Friday Mega Sale</h2>
-                            <p class="promo-subtitle">Get up to 50% OFF on premium gaming laptops. Special deals on Acer Predator, Asus ROG, and MSI Katana. Offer ends soon!</p>
-                            <a href="#productsContainer" class="btn promo-btn">
-                                <i class="fas fa-shopping-cart me-2"></i> Shop Now
-                            </a>
+                <div class="carousel-inner">
+                    <!-- Slide 1: Gaming -->
+                    <div class="carousel-item active" data-bs-interval="5000">
+                        <img src="{{ asset('img/banners/banner1.png') }}" alt="Elite Gaming">
+                        <div class="promo-caption">
+                            <h2 class="promo-title">Next-Gen Gaming</h2>
+                            <p class="promo-text">Unleash pure power with our latest collection of high-performance gaming hardware. Engineered for the elite.</p>
+                            <button class="btn-promo-explore" onclick="document.getElementById('searchInput').focus()">Explore Now</button>
                         </div>
                     </div>
-                    
-                    <!-- Banner 2: New Arrivals -->
-                    <div class="carousel-item">
-                        <img src="/image/Asus-Gaming-banner.jpg" class="carousel-image" alt="New Arrivals">
-                        <div class="carousel-caption">
-                            <div class="promo-badge">
-                                <i class="fas fa-star me-2"></i> NEW ARRIVALS
-                            </div>
-                            <h2 class="promo-title">Latest Tech Collection</h2>
-                            <p class="promo-subtitle">Discover our new lineup of premium laptops including MacBook Pro M3, Surface Laptop Studio, and Razer Blade 16.</p>
-                            <a href="#productsContainer" class="btn promo-btn">
-                                <i class="fas fa-eye me-2"></i> Explore Collection
-                            </a>
+
+                    <!-- Slide 2: Audio/Lifestyle -->
+                    <div class="carousel-item" data-bs-interval="5000">
+                        <img src="{{ asset('img/banners/banner2.png') }}" alt="Premium Audio">
+                        <div class="promo-caption">
+                            <h2 class="promo-title">Pure Sound Architecture</h2>
+                            <p class="promo-text">Experience acoustics like never before. Discover studio-grade audio equipment designed for ultimate clarity.</p>
+                            <button class="btn-promo-explore" onclick="document.getElementById('searchInput').focus()">Discover Gear</button>
                         </div>
                     </div>
-                    
-                    <!-- Banner 3: Back to School -->
-                    <div class="carousel-item">
-                        <img src="image/Asus-Book-banner.jpg" class="carousel-image" alt="Back to School">
-                        <div class="carousel-caption">
-                            <div class="promo-badge">
-                                <i class="fas fa-graduation-cap me-2"></i> STUDENT DISCOUNT
-                            </div>
-                            <h2 class="promo-title">Back to School Special</h2>
-                            <p class="promo-subtitle">Get 20% OFF on all laptops with student verification. Perfect for students and professionals. Free shipping included.</p>
-                            <a href="#productsContainer" class="btn promo-btn">
-                                <i class="fas fa-percentage me-2"></i> Get Discount
-                            </a>
+
+                    <!-- Slide 3: Productivity -->
+                    <div class="carousel-item" data-bs-interval="5000">
+                        <img src="{{ asset('img/banners/productivity.png') }}" alt="Productivity Setup">
+                        <div class="promo-caption">
+                            <h2 class="promo-title">Peak Productivity</h2>
+                            <p class="promo-text">Optimized workstations for modern pioneers. Build your dream setup with our professional hardware selection.</p>
+                            <button class="btn-promo-explore" onclick="document.getElementById('searchInput').focus()">Build Setup</button>
                         </div>
                     </div>
-                </div> --}}
-                
-                <button class="carousel-control-prev" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#premiumPromoCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true" style="filter: invert(1);"></span>
                 </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
+                <button class="carousel-control-next" type="button" data-bs-target="#premiumPromoCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true" style="filter: invert(1);"></span>
                 </button>
             </div>
         </div>
@@ -700,7 +212,7 @@
                 $specifications = $product['specifications'] ?? [];
             @endphp
             
-            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="{{ strtolower($product['category'] ?? 'gaming') }}" data-stock="{{ $stockStatus }}">
+            <div class="col-xl-3 col-lg-4 col-md-6 product-item" data-category="{{ strtolower($product['category'] ?? 'gaming') }}" data-stock="{{ $stockStatus }}" data-id="{{ $product['id'] }}">
                 <div class="modern-product-card">
                     <div class="stock-badge {{ $stockStatus }}">
                         <i class="{{ $stockIcon }}"></i>
@@ -715,13 +227,13 @@
                     @endif
                     
                     <div class="product-img-container">
-                        <a href="{{ route('product.detail', ['id' => $index]) }}">
+                        <a href="{{ route('product.detail', ['id' => $product['id']]) }}">
                             <img src="{{ $product['image'] }}" class="product-img" alt="{{ $product['name'] }}">
                         </a>
                     </div>
                     
                     <div class="product-content">
-                        <a href="{{ route('product.detail', ['id' => $index]) }}" class="text-decoration-none">
+                        <a href="{{ route('product.detail', ['id' => $product['id']]) }}" class="text-decoration-none">
                             <h3 class="product-title">{{ $product['name'] }}</h3>
                         </a>
                         
@@ -770,27 +282,37 @@
                             </div>
                         </div>
                         
-                        <form method="POST" action="{{ route('buy_now') }}" class="mt-3">
-                            @csrf
-                            <input type="hidden" name="name" value="{{ $product['name'] }}">
-                            <input type="hidden" name="price" value="{{ $product['price'] }}">
+                        <div class="product-actions">
+                            <form method="POST" action="{{ route('buy_now') }}" class="w-50">
+                                @csrf
+                                <input type="hidden" name="name" value="{{ $product['name'] }}">
+                                <input type="hidden" name="price" value="{{ $product['price'] }}">
+                                <input type="hidden" name="image" value="{{ $product['image'] }}">
+                                
+                                <button type="submit" class="modern-buy-btn" {{ $stockStatus === 'out-of-stock' ? 'disabled' : '' }}>
+                                    @if($stockStatus === 'out-of-stock')
+                                    <i class="fas fa-clock"></i> Notify
+                                    @elseif($stockStatus === 'low-stock')
+                                    <i class="fas fa-bolt"></i> Buy Now
+                                    @else
+                                    <i class="fas fa-bolt"></i> Buy Now
+                                    @endif
+                                </button>
+                            </form>
                             
-                            <button type="submit" class="modern-buy-btn" {{ $stockStatus === 'out-of-stock' ? 'disabled' : '' }}>
-                                @if($stockStatus === 'out-of-stock')
-                                <i class="fas fa-clock"></i> Notify When Available
-                                @elseif($stockStatus === 'low-stock')
-                                <i class="fas fa-bolt"></i> Buy Now - Limited Stock
-                                @else
-                                <i class="fas fa-bolt"></i> Buy Now
-                                @endif
-                            </button>
-                            
-                            @if($stockStatus === 'out-of-stock')
-                            <div class="text-center mt-2">
-                                <small class="text-muted">Expected restock: {{ date('M d', strtotime('+'.rand(3,14).' days')) }}</small>
-                            </div>
-                            @endif
-                        </form>
+                            <form method="POST" action="{{ route('cart.add', ['id' => $product['id']]) }}">
+                                @csrf
+                                <button type="submit" class="btn-add-to-cart" {{ $stockStatus === 'out-of-stock' ? 'disabled' : '' }}>
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </form>
+                        </div>
+                        
+                        @if($stockStatus === 'out-of-stock')
+                        <div class="text-center mt-2">
+                            <small class="text-muted">Expected restock: {{ date('M d', strtotime('+'.rand(3,14).' days')) }}</small>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -825,40 +347,62 @@
     </footer>
 
     <!-- Bootstrap JS Bundle -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></sc>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
+        // Cart data structure
+        let cart = JSON.parse(localStorage.getItem('shoppingCart')) || [];
+        let itemToRemove = null;
+
+        // Initialize cart display
         document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('searchInput');
-            const filterButtons = document.querySelectorAll('.filter-btn');
+            // Cart count logic if needed purely client-side or stick to server-side badges
+        });
+
+
+        // Search and filter functionality (existing)
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
             const productItems = document.querySelectorAll('.product-item');
-            const productsContainer = document.getElementById('productsContainer');
-            const emptyState = document.getElementById('emptyState');
-            const resetFiltersBtn = document.getElementById('resetFilters');
+            let visibleCount = 0;
             
-            // Filter products based on search and filter
-            function filterProducts() {
-                const searchTerm = searchInput.value.toLowerCase();
-                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+            productItems.forEach(item => {
+                const title = item.querySelector('.product-title').textContent.toLowerCase();
+                const desc = item.querySelector('.product-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                    item.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show/hide empty state
+            document.getElementById('emptyState').classList.toggle('d-none', visibleCount > 0);
+        });
+
+        // Filter functionality (existing)
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filter = this.dataset.filter;
+                
+                // Update active button
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter products
+                const productItems = document.querySelectorAll('.product-item');
                 let visibleCount = 0;
                 
                 productItems.forEach(item => {
-                    const productName = item.querySelector('.product-title').textContent.toLowerCase();
-                    const productDesc = item.querySelector('.product-description').textContent.toLowerCase();
-                    const productSpecs = item.querySelector('.product-specifications')?.textContent.toLowerCase() || '';
-                    const productStock = item.getAttribute('data-stock');
-                    const productCategory = item.getAttribute('data-category');
+                    const stock = item.dataset.stock;
+                    const category = item.dataset.category;
                     
-                    // Combine all searchable text
-                    const searchableText = productName + ' ' + productDesc + ' ' + productSpecs;
-                    
-                    const matchesSearch = searchableText.includes(searchTerm);
-                    const matchesFilter = activeFilter === 'all' || 
-                                         (activeFilter === 'in-stock' && productStock === 'in-stock') ||
-                                         (activeFilter === 'out-of-stock' && productStock === 'out-of-stock') ||
-                                         (activeFilter === 'gaming' && productCategory === 'gaming');
-                    
-                    if (matchesSearch && matchesFilter) {
+                    if (filter === 'all' || 
+                        (filter === 'in-stock' && stock === 'in-stock') ||
+                        (filter === 'out-of-stock' && stock === 'out-of-stock') ||
+                        (filter === 'gaming' && category.includes('gaming'))) {
                         item.style.display = 'block';
                         visibleCount++;
                     } else {
@@ -866,82 +410,23 @@
                     }
                 });
                 
-                // Show empty state if no products visible
-                if (visibleCount === 0) {
-                    productsContainer.classList.add('d-none');
-                    emptyState.classList.remove('d-none');
-                } else {
-                    productsContainer.classList.remove('d-none');
-                    emptyState.classList.add('d-none');
-                }
-            }
-            
-            // Event listeners for search input
-            searchInput.addEventListener('input', filterProducts);
-            
-            // Event listeners for filter buttons
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Remove active class from all buttons
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    
-                    // Add active class to clicked button
-                    this.classList.add('active');
-                    
-                    // Filter products
-                    filterProducts();
-                });
+                document.getElementById('emptyState').classList.toggle('d-none', visibleCount > 0);
+            });
+        });
+
+        // Reset filters (existing)
+        document.getElementById('resetFilters').addEventListener('click', function() {
+            document.getElementById('searchInput').value = '';
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.filter === 'all') btn.classList.add('active');
             });
             
-            // Reset filters button
-            resetFiltersBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                filterButtons.forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.getAttribute('data-filter') === 'all') {
-                        btn.classList.add('active');
-                    }
-                });
-                filterProducts();
+            document.querySelectorAll('.product-item').forEach(item => {
+                item.style.display = 'block';
             });
             
-            // Add subtle animation to cards on page load
-            setTimeout(() => {
-                productItems.forEach((item, index) => {
-                    item.style.opacity = '0';
-                    item.style.transform = 'translateY(20px)';
-                    
-                    setTimeout(() => {
-                        item.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                        item.style.opacity = '1';
-                        item.style.transform = 'translateY(0)';
-                    }, index * 100);
-                });
-            }, 300);
-            
-            // Initialize stock status display
-            productItems.forEach(item => {
-                const stockBadge = item.querySelector('.stock-badge');
-                const buyButton = item.querySelector('.modern-buy-btn');
-                const stockStatus = item.getAttribute('data-stock');
-                
-                // Add stock-specific styling
-                if (stockStatus === 'out-of-stock') {
-                    buyButton.disabled = true;
-                    buyButton.innerHTML = '<i class="fas fa-clock"></i> Notify When Available';
-                } else if (stockStatus === 'low-stock') {
-                    buyButton.innerHTML = '<i class="fas fa-bolt"></i> Buy Now - Limited Stock';
-                }
-            });
-            
-            // Auto-rotate promo carousel
-            const promoCarousel = document.getElementById('promoCarousel');
-            if (promoCarousel) {
-                const carousel = new bootstrap.Carousel(promoCarousel, {
-                    interval: 5000,
-                    ride: 'carousel'
-                });
-            }
+            document.getElementById('emptyState').classList.add('d-none');
         });
     </script>
 </body>
