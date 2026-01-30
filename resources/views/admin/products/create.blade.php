@@ -36,8 +36,17 @@
     </nav>
 
     <main class="pt-28 max-w-4xl mx-auto px-6">
+        @if ($errors->any())
+            <div class="mb-8 p-4 bg-red-500/10 border border-red-500/50 rounded-2xl text-red-500 text-sm">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         
-        <form action="{{ route('admin.products.store') }}" method="POST" class="space-y-8">
+        <form action="{{ route('admin.products.store') }}" method="POST" class="space-y-8" enctype="multipart/form-data">
             @csrf
 
             <!-- Product Details Card -->
@@ -73,10 +82,28 @@
                     </div>
 
                     <div class="col-span-2">
-                        <label class="block text-sm font-medium text-slate-400 mb-2">Image URL</label>
-                        <input type="text" name="image" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all placeholder-slate-600" placeholder="image/placeholder.jpg">
-                        <p class="text-xs text-slate-500 mt-2">Enter the relative path to the image in public folder.</p>
+                        <label class="block text-sm font-medium text-slate-400 mb-2">Product Image</label>
+                        <div class="space-y-4">
+                            <div id="image-preview" class="hidden w-full max-w-sm aspect-video rounded-2xl border-2 border-dashed border-slate-700 overflow-hidden bg-slate-800/50 flex items-center justify-center">
+                                <img id="preview-img" src="#" alt="Preview" class="w-full h-full object-cover">
+                            </div>
+                            <div class="flex gap-4">
+                                <input type="file" name="image" id="image-input" accept="image/*" class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700">
+                            </div>
+                        </div>
                     </div>
+
+                    <script>
+                        document.getElementById('image-input').onchange = function (evt) {
+                            const [file] = this.files
+                            if (file) {
+                                const preview = document.getElementById('image-preview');
+                                const img = document.getElementById('preview-img');
+                                preview.classList.remove('hidden');
+                                img.src = URL.createObjectURL(file);
+                            }
+                        }
+                    </script>
 
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-slate-400 mb-2">Description</label>

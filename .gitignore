@@ -22,3 +22,16 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Deployment files
+laptopshop_deploy_*.zip
+temp_deploy_*
+
+# Debug files
+artisan_error.txt
+debug_migrate.php
+full_debug.txt
+migration_error.txt
+migration_log.txt
+seed_log.txt
+create_db.php

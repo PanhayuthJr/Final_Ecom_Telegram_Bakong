@@ -103,7 +103,7 @@
 
                 <div class="space-y-4">
                     @php 
-                        $isOut = ($product['stock'] ?? '') === 'out-of-stock';
+                        $isOut = trim($product['stock'] ?? '') === 'out-of-stock';
                         $product_id = $product['id'] ?? '0';
                     @endphp
                     

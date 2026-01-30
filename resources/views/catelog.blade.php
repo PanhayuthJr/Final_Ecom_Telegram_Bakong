@@ -194,7 +194,13 @@
             @foreach($products as $index => $product)
             @php
                 // Determine stock status icon and text
-                $stockStatus = $product['stock'] ?? 'in-stock';
+                $stockStatus = trim($product['stock'] ?? 'in-stock');
+                
+                // Fallback Ensure correct status
+                if (!in_array($stockStatus, ['in-stock', 'out-of-stock', 'low-stock'])) {
+                     $stockStatus = 'in-stock'; 
+                }
+
                 $stockText = match($stockStatus) {
                     'in-stock' => 'In Stock',
                     'out-of-stock' => 'Out of Stock',
@@ -228,7 +234,7 @@
                     
                     <div class="product-img-container">
                         <a href="{{ route('product.detail', ['id' => $product['id']]) }}">
-                            <img src="{{ $product['image'] }}" class="product-img" alt="{{ $product['name'] }}">
+                            <img src="{{ asset($product['image']) }}" class="product-img" alt="{{ $product['name'] }}">
                         </a>
                     </div>
                     
@@ -332,16 +338,74 @@
         </div>
     </main>
 
-    <!-- Footer -->
+    <!-- Premium Footer -->
     <footer class="modern-footer">
-        <div class="container">
-            <h4 class="footer-title">Premium Laptop Store</h4>
-            <p class="mb-4">Power by Thet Panhayuth</p>
-            <div>
-                <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="text-light me-3"><i class="fab fa-facebook"></i></a>
-                <a href="#" class="text-light me-3"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="text-light"><i class="fab fa-linkedin"></i></a>
+        <div class="container py-5">
+            <div class="row g-4">
+                <!-- Brand Section -->
+                <div class="col-lg-4 col-md-6">
+                    <h4 class="footer-brand mb-3">Tech<span class="text-primary">Store</span></h4>
+                    <p class="footer-desc mb-4">Your premier destination for high-end electronics, gaming gear, and professional workstations. Quality guaranteed.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-heading">Shop</h5>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('catalog') }}">All Products</a></li>
+                        <li><a href="#" class="filter-link" data-filter="gaming">Gaming Laptops</a></li>
+                        <li><a href="#" class="filter-link" data-filter="in-stock">New Arrivals</a></li>
+                        <li><a href="#">Accessories</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="footer-heading">Support</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Order Status</a></li>
+                        <li><a href="#">Returns & Warranty</a></li>
+                        <li><a href="{{ route('contact') }}">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="footer-heading">Stay Updated</h5>
+                    <p class="text-muted small mb-3">Subscribe for exclusive deals and new product alerts.</p>
+                    <form class="newsletter-form position-relative">
+                        <input type="email" class="form-control rounded-pill py-2 ps-3 pe-5" placeholder="Enter your email">
+                        <button type="submit" class="btn btn-primary rounded-circle position-absolute top-0 end-0 m-1" style="width: 38px; height: 38px;">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                    <div class="payment-methods mt-4">
+                        <span class="text-muted small d-block mb-2">We Accept:</span>
+                        <div class="d-flex gap-2">
+                            <div class="payment-icon"><i class="fab fa-cc-visa"></i></div>
+                            <div class="payment-icon"><i class="fab fa-cc-mastercard"></i></div>
+                            <div class="payment-icon"><i class="fas fa-money-bill-wave"></i></div> <!-- KHQR Placeholder -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Copyright -->
+        <div class="footer-bottom border-top border-secondary py-3">
+            <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <p class="mb-0 small text-secondary">&copy; {{ date('Y') }} TechStore. Power by Thet Panhayuth.</p>
+                <div class="footer-legal mt-2 mt-md-0">
+                    <a href="#" class="small text-secondary text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="small text-secondary text-decoration-none">Terms of Service</a>
+                </div>
             </div>
         </div>
     </footer>

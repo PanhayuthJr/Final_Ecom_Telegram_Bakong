@@ -73,15 +73,27 @@
 
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-slate-400 mb-2">Product Image</label>
-                        <div class="flex gap-4">
-                            <input type="file" name="image" class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700">
-                            @if($product->image)
-                            <div class="w-12 h-12 rounded-lg bg-slate-800 border border-slate-700 overflow-hidden flex-shrink-0">
-                                <img src="{{ asset($product->image) }}" class="w-full h-full object-cover">
+                        <div class="space-y-4">
+                            <div id="image-preview" class="{{ $product->image ? '' : 'hidden' }} w-full max-w-sm aspect-video rounded-2xl border-2 border-dashed border-slate-700 overflow-hidden bg-slate-800/50 flex items-center justify-center">
+                                <img id="preview-img" src="{{ $product->image ? asset($product->image) : '#' }}" alt="Preview" class="w-full h-full object-cover">
                             </div>
-                            @endif
+                            <div class="flex gap-4">
+                                <input type="file" name="image" id="image-input" accept="image/*" class="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-600 file:text-white hover:file:bg-indigo-700">
+                            </div>
                         </div>
                     </div>
+
+                    <script>
+                        document.getElementById('image-input').onchange = function (evt) {
+                            const [file] = this.files
+                            if (file) {
+                                const preview = document.getElementById('image-preview');
+                                const img = document.getElementById('preview-img');
+                                preview.classList.remove('hidden');
+                                img.src = URL.createObjectURL(file);
+                            }
+                        }
+                    </script>
 
                     <div class="col-span-2">
                         <label class="block text-sm font-medium text-slate-400 mb-2">Description</label>

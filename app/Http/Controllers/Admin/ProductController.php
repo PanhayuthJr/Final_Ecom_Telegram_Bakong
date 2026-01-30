@@ -34,13 +34,46 @@ class ProductController extends Controller
             'name' => 'required|string|max:255',
             'desc' => 'nullable|string',
             'price' => 'required|numeric|min:0',
-            'image' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category' => 'required|string',
             'stock' => 'required|string',
             'specifications' => 'nullable|array'
         ]);
 
-        Product::create($request->all());
+        $data = $request->except('image');
+        
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            \Log::info('Image found in request', [
+                'mime' => $file->getMimeType(),
+                'original_name' => $file->getClientOriginalName(),
+                'size' => $file->getSize()
+            ]);
+            
+            $extension = $file->extension() ?: $file->getClientOriginalExtension() ?: 'png';
+            $imageName = time().'.'.$extension;  
+            $path = public_path('img/products');
+            
+            try {
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                $file->move($path, $imageName);
+                $data['image'] = '/img/products/' . $imageName;
+                \Log::info('Image moved successfully', ['path' => $data['image']]);
+            } catch (\Exception $e) {
+                \Log::error('Failed to move image', ['error' => $e->getMessage()]);
+                return back()->withInput()->withErrors(['image' => 'Failed to upload image: ' . $e->getMessage()]);
+            }
+        } else {
+            \Log::warning('No image file found in request');
+        }
+        $data['name'] = trim($data['name']);
+        if (isset($data['desc'])) $data['desc'] = trim($data['desc']);
+        $data['category'] = trim($data['category']);
+        $data['stock'] = trim($data['stock']);
+
+        Product::create($data);
 
         return redirect()->route('admin.products.index')
             ->with('success', 'Product created successfully.');
@@ -72,10 +105,35 @@ class ProductController extends Controller
         $data = $request->except('image');
 
         if ($request->hasFile('image')) {
-            $imageName = time().'.'.$request->image->extension();  
-            $request->image->move(public_path('img/products'), $imageName);
-            $data['image'] = 'img/products/' . $imageName;
+            $file = $request->file('image');
+            \Log::info('Image found in request (update)', [
+                'mime' => $file->getMimeType(),
+                'original_name' => $file->getClientOriginalName(),
+                'size' => $file->getSize()
+            ]);
+            
+            $extension = $file->extension() ?: $file->getClientOriginalExtension() ?: 'png';
+            $imageName = time().'.'.$extension;  
+            $path = public_path('img/products');
+            
+            try {
+                if (!file_exists($path)) {
+                    mkdir($path, 0777, true);
+                }
+                $file->move($path, $imageName);
+                $data['image'] = '/img/products/' . $imageName;
+                \Log::info('Update image successfully', ['path' => $data['image']]);
+            } catch (\Exception $e) {
+                \Log::error('Update image failed', ['error' => $e->getMessage()]);
+                return back()->withInput()->withErrors(['image' => 'Failed to upload image: ' . $e->getMessage()]);
+            }
         }
+
+        // Clean string fields
+        $data['name'] = trim($data['name']);
+        if (isset($data['desc'])) $data['desc'] = trim($data['desc']);
+        $data['category'] = trim($data['category']);
+        $data['stock'] = trim($data['stock']);
 
         $product->update($data);
 

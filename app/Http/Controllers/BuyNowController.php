@@ -72,11 +72,15 @@ class BuyNowController extends Controller
                     // Get order details from session
                     $orderName = session('order_name', 'Unknown Customer');
                     $totalPrice = session('payment_price', 0);
-                    $cart = session('cart', []);
-                    $buyNowItem = session('buy_now_item');
                     
-                    $items = $cart;
-                    if ($buyNowItem) { $items[] = $buyNowItem; }
+                    $items = session('pending_checkout_items');
+                    
+                    if (empty($items)) {
+                        $cart = session('cart', []);
+                        $buyNowItem = session('buy_now_item');
+                        $items = $cart;
+                        if ($buyNowItem) { $items[] = $buyNowItem; }
+                    }
 
                     $this->SendNotification(
                         $orderName,
@@ -120,7 +124,7 @@ class BuyNowController extends Controller
      */
     function SendNotification($customerName, $total, $items, $fromAccount = 'Unknown')
     {
-        $date  = now()->format('d-m-Y h:i A');
+        $date  = now()->setTimezone('Asia/Phnom_Penh')->format('d-m-Y h:i A');
 
         $text  = "<b>New Order Paid!</b>\n";
         $text .= "<b>Customer:</b> {$customerName}\n";

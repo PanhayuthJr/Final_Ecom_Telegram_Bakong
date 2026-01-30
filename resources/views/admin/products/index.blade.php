@@ -139,13 +139,14 @@
                             </td>
                             <td class="px-6 py-5 text-center">
                                 @php
-                                    $stockClass = match($product->stock) {
+                                    $stockVal = trim($product->stock);
+                                    $stockClass = match($stockVal) {
                                         'in-stock' => 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20',
                                         'low-stock' => 'bg-amber-500/10 text-amber-400 border-amber-500/20',
                                         'out-of-stock' => 'bg-rose-500/10 text-rose-400 border-rose-500/20',
                                         default => 'bg-slate-500/10 text-slate-400 border-slate-500/20'
                                     };
-                                    $stockIcon = match($product->stock) {
+                                    $stockIcon = match($stockVal) {
                                         'in-stock' => 'fa-check',
                                         'low-stock' => 'fa-exclamation',
                                         'out-of-stock' => 'fa-times',

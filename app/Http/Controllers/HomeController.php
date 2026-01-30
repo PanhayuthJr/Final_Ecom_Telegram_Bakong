@@ -9,7 +9,7 @@ class HomeController extends Controller
     // Public static method to return all products from Database
     public static function getProducts()
     {
-        return \App\Models\Product::all()->toArray();
+        return \App\Models\Product::latest()->get()->toArray();
     }
 
 
