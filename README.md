@@ -2,17 +2,13 @@
 
 ## 1. Project Overview
 This project is a Laravel-based E-commerce web application designed to facilitate online shopping with integrated KHQR payment solutions. It features a modern, responsive user interface built with TailwindCSS and Vite, offering a seamless experience for browsing products, managing a shopping cart, and processing transactions.
-========= Member ===========
++Member
 
 1. Thet Panhayuth (Group Leader)
 2. Menrorn Virakvuth (Frontend Developer)
 3. Prum David (Backend Developer)
 4. Vonnvirak Khemra (Hosting)
 5. Koun Channit (Database)
-
-
-=============================
-
 
 ## 2. Technology Stack
 
