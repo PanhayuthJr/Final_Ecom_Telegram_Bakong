@@ -35,3 +35,8 @@ migration_error.txt
 migration_log.txt
 seed_log.txt
 create_db.php
+
+# Additional sensitive files
+.env.cpanel
+.env.production.final
+temp_log.txt
