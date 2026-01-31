@@ -98,7 +98,7 @@ This project is a Laravel-based E-commerce web application designed to facilitat
     ```bash
     php artisan serve
     ```
-    The application will be available at `APP_URL=https://dpdc501.dpdatacenter.com`.
+    The application will be available at `https://dpdc501.dpdatacenter.com`.
 
 ## 5. API & Routes
 - **Home**: `/` or `/catalog`
