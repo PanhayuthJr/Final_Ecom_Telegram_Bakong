@@ -1,112 +1,180 @@
-# E-commerce Project Documentation
+E-commerce Project Documentation
+1. Project Overview
 
-## 1. Project Overview
 This project is a Laravel-based E-commerce web application designed to facilitate online shopping with integrated KHQR payment solutions. It features a modern, responsive user interface built with TailwindCSS and Vite, offering a seamless experience for browsing products, managing a shopping cart, and processing transactions.
-+Member
 
-1. Thet Panhayuth (Group Leader)
-2. Menrorn Virakvuth (Frontend Developer)
-3. Prum David (Backend Developer)
-4. Vonnvirak Khemra (Hosting)
-5. Koun Channit (Database)
+Group Members
 
-## 2. Technology Stack
+Thet Panhayuth (Group Leader)
 
-### Backend
-- **Framework**: Laravel 12.x
-- **Language**: PHP 8.2+
-- **Database**: MySQL / MariaDB (Standard Laravel support)
-- **Payment Integration**: Bakong KHQR (`fidele007/bakong-khqr-php`)
+Menrorn Virakvuth (Frontend Developer)
 
-### Frontend
-- **Styling**: TailwindCSS v4
-- **Bundler**: Vite
-- **Templating**: Laravel Blade
-- **HTTP Client**: Axios
+Prum David (Backend Developer)
 
-## 3. Key Features
+Vonnvirak Khemra (Hosting)
 
-### Storefront
-- **Product Catalog**: Browse available products with a responsive layout.
-- **Product Details**: Detailed view of products including descriptions and pricing.
-- **Shopping Cart**: Full cart management (add, update, remove items, clear cart).
-- **Buy Now**: Quick purchase option for immediate checkout.
+Koun Channit (Database)
 
-### Checkout & Payment
-- **User Authentication**: Secure Login and Registration system.
-- **Checkout Process**: Step-by-step checkout flow.
-- **KHQR Payment**: Integrated Bakong KHQR for seamless payments.
-- **Transaction Status**: Automated checks for transaction validity.
+2. Technology Stack
+Backend
 
-### Administration
-- **Admin Dashboard**: backend interface for managing the store.
-- **Product Management**: Create, read, update, and delete (CRUD) operations for products.
+Framework: Laravel 12.x
 
-## 4. Installation & Setup guide
+Language: PHP 8.2+
 
-### Prerequisites
-- PHP >= 8.2
-- Composer
-- Node.js & NPM
-- MySQL Database
+Database: MySQL
 
-### Steps
-1.  **Clone the Repository**
-    ```bash
-    git clone <repository_url>
-    cd <project_directory>
-    ```
+Payment Integration: Bakong KHQR (fidele007/bakong-khqr-php)
 
-2.  **Install PHP Dependencies**
-    ```bash
-    composer install
-    ```
+Notification Service: Telegram Bot API
 
-3.  **Install Frontend Dependencies**
-    ```bash
-    npm install
-    ```
+Frontend
 
-4.  **Environment Configuration**
-    - Copy the example environment file:
-        ```bash
-        cp .env.example .env
-        ```
-    - Update `.env` with your database credentials and application settings.
-    - Generate the application key:
-        ```bash
-        php artisan key:generate
-        ```
+Styling: TailwindCSS v4
 
-5.  **Database Migration**
-    - Run migrations to set up the database schema:
-        ```bash
-        php artisan migrate
-        ```
+Bundler: Vite
 
-6.  **Build Assets**
-    - For development:
-        ```bash
-        npm run dev
-        ```
-    - For production:
-        ```bash
-        npm run build
-        ```
+Templating: Laravel Blade
 
-7.  **Serve Application**
-    ```bash
-    php artisan serve
-    ```
-    The application will be available at `https://dpdc501.dpdatacenter.com`.
+HTTP Client: Axios
 
-## 5. API & Routes
-- **Home**: `/` or `/catalog`
-- **Product**: `/product/{id}`
-- **Cart**: `/cart`
-- **Checkout**: `/checkout`
-- **Admin**: `/admin/products`
+Social Sharing: Facebook Share URL & Telegram Share URL
 
-## 6. Deployment Note
-- Ensure the web server (Apache/Nginx) points to the `public/` directory.
-- Configure folder permissions for `storage/` and `bootstrap/cache/`.
+3. Key Features
+Storefront
+
+Product Catalog: Browse available products with a responsive layout.
+
+Product Details: Detailed view of products including descriptions, pricing, and images.
+
+Shopping Cart: Full cart management (add, update, remove items, clear cart).
+
+Buy Now: Quick purchase option for immediate checkout.
+
+Checkout & Payment
+
+User Authentication: Secure Login and Registration system.
+
+Checkout Process: Step-by-step checkout flow.
+
+KHQR Payment: Integrated Bakong KHQR for seamless payments.
+
+Transaction Status: Automated checks for transaction validity.
+
+Administration
+
+Admin Dashboard: Backend interface for managing the store.
+
+Product Management: Create, read, update, and delete (CRUD) operations for products.
+
+Notifications & Social Sharing
+
+Telegram Owner Notification
+
+Automatically sends order notifications to the store owner via Telegram Bot.
+
+Includes customer name, order ID, total amount, and payment status.
+
+Helps store owners monitor sales in real time.
+
+Product Sharing
+
+Facebook Share: Allows users to share product detail links directly to Facebook.
+
+Telegram Share: Allows users to share product links via Telegram.
+
+Improves product visibility and social engagement.
+
+4. Installation & Setup Guide
+Prerequisites
+
+PHP >= 8.2
+
+Composer
+
+Node.js & NPM
+
+MySQL Database
+
+Telegram Bot Token (for notifications)
+
+Steps
+
+Clone the Repository
+
+git clone <repository_url>
+cd <project_directory>
+
+
+Install PHP Dependencies
+
+composer install
+
+
+Install Frontend Dependencies
+
+npm install
+
+
+Environment Configuration
+
+cp .env.example .env
+php artisan key:generate
+
+
+Update .env:
+
+DB_DATABASE=your_db
+DB_USERNAME=your_user
+DB_PASSWORD=your_password
+
+TELEGRAM_BOT_TOKEN=your_bot_token
+TELEGRAM_CHAT_ID=your_chat_id
+
+
+Database Migration
+
+php artisan migrate
+
+
+Build Assets
+
+npm run dev
+
+
+or
+
+npm run build
+
+
+Serve Application
+
+php artisan serve
+
+
+Application URL:
+https://dpdc501.dpdatacenter.com
+
+5. API & Routes
+
+Home: / or /catalog
+
+Product Detail: /product/{id}
+
+Cart: /cart
+
+Checkout: /checkout
+
+Admin Products: /admin/products
+
+6. Deployment Notes
+
+Configure Apache/Nginx to point to the public/ directory.
+
+Set correct permissions for:
+
+storage/
+
+bootstrap/cache/
+
+Ensure HTTPS is enabled for secure payments and social sharing.
